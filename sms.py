@@ -1,25 +1,16 @@
-import mysql.connector
-def connect_db():
-    connect = mysql.connector.connect(
-        host = "127.0.0.1",
-        port = 3306,
-        user = "root",
-        password = "Varun@3008",
-        database = "python"
-    )
-    return connect
+import mysql_database_connection as db
 def add_student():
     name = input("Enter a student name: ")
     roll_no = int(input("Enter student roll number: "))
     marks = int(input("Enter student marks: "))
-    conn = connect_db()
+    conn = db.connect_db()
     cursor = conn.cursor()
     cursor.execute("INSERT INTO info (id, name, marks) VALUES (%s, %s, %s)", (roll_no, name, marks))
     conn.commit()
     conn.close()
     print("Student added successfully")
 def view_student():
-    conn = connect_db()
+    conn = db.connect_db()
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM info")
     rows = cursor.fetchall()
@@ -29,7 +20,7 @@ def view_student():
 def update_student():
     sid = int(input("Enter student roll number: "))
     marks = int(input("Enter marks to update: "))
-    conn = connect_db()
+    conn = db.connect_db()
     cursor = conn.cursor()
     cursor.execute("UPDATE info SET marks = %s WHERE id = %s", (marks, sid))
     conn.commit()
@@ -37,7 +28,7 @@ def update_student():
     print("Student updated successfully")
 def delete_student():
     sid = int(input("Enter student roll number: "))
-    conn = connect_db()
+    conn = db.connect_db()
     cursor = conn.cursor()
     cursor.execute("DELETE FROM info WHERE id = %s", (sid,))
     conn.commit()
